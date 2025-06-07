@@ -1,0 +1,17 @@
+version: "3.8" # Versão da sintaxe do Docker Compose (você pode remover esta linha para evitar o aviso, mas não é um erro)
+
+services:
+  app: # Nome do seu serviço (pode ser 'web', 'frontend', etc.)
+    build: . # Diz ao Docker Compose para construir a imagem a partir do Dockerfile nesta pasta
+    ports:
+      - "5173:5173" # Mapeia a porta 5173 do seu host para a porta 5173 do contêiner
+    volumes:
+      - .:/app # Monta o diretório atual do seu projeto no diretório /app do contêiner (exclui node_modules)
+      - app_node_modules:/app/node_modules # NOVO: Usa um volume nomeado para node_modules, evitando conflitos
+    environment: # Variáveis de ambiente para o contêiner (essencial para o Supabase)
+      VITE_SUPABASE_URL: "https://dgppfpsdjjrjtrfxnarw.supabase.co" # SUA URL DO SUPABASE
+      VITE_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncHBmcHNkampyanRyZnhuYXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkyNTg0MzUsImV4cCI6MjA2NDgzNDQzNX0._gGDTOUAEeFT8MyGID-XLBP6NmjYV5b8MQVt_wmA7ZQ" # SUA CHAVE ANON DO SUPABASE
+
+# NOVO: Define os volumes nomeados aqui (importante para que o Docker saiba sobre 'app_node_modules')
+volumes:
+  app_node_modules:
