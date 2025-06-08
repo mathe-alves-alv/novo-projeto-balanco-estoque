@@ -47,6 +47,7 @@
 
     async function handleToggleAtivo(colaborador) {
         const novoStatus = !colaborador.ativo;
+        if (!confirm(`Tem certeza que deseja ${novoStatus ? 'ATIVAR' : 'DESATIVAR'} este colaborador?`)) return;
         console.log(`TODO: Atualizar status do colaborador ${colaborador.id} para ${novoStatus}`);
         await fetchColaboradores();
     }
@@ -78,15 +79,19 @@
                 <div class="form-group">
                     <label>Associar às Unidades:</label>
                     <div id="colaboradorUnidadesCheckboxContainer" class="checkbox-group-container">
-                        {#each unidades as unidade (unidade.id)}
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="unidade_colab_{unidade.id}" value={unidade.id}>
-                                <label for="unidade_colab_{unidade.id}">{unidade.nome_unidade}</label>
-                            </div>
-                        {/each}
+                        {#if unidades.length > 0}
+                            {#each unidades as unidade (unidade.id)}
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="unidade_colab_{unidade.id}" value={unidade.id}>
+                                    <label for="unidade_colab_{unidade.id}">{unidade.nome_unidade}</label>
+                                </div>
+                            {/each}
+                        {:else}
+                             <p class="text-muted">Nenhuma unidade cadastrada.</p>
+                        {/if}
                     </div>
                 </div>
-                <button type="submit" class="btn-success">Adicionar Colaborador</button>
+                <button type="submit" class="btn btn-success">Adicionar Colaborador</button>
             </form>
         </div>
     </div>
@@ -100,25 +105,25 @@
                         <th>Nome</th>
                         <th>Ativo</th>
                         <th>Unidades</th>
-                        <th style="width: 220px;">Ações</th>
+                        <th class="actions-column">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {#if isLoading}
-                        <tr><td colspan="4" style="text-align: center;">Carregando...</td></tr>
+                        <tr><td colspan="4" class="centered-cell">Carregando...</td></tr>
                     {:else if colaboradores.length === 0}
-                        <tr><td colspan="4" style="text-align: center;">Nenhum colaborador cadastrado.</td></tr>
+                        <tr><td colspan="4" class="centered-cell">Nenhum colaborador cadastrado.</td></tr>
                     {:else}
                         {#each colaboradores as col (col.id)}
                             <tr>
                                 <td>{col.nome_colaborador}</td>
                                 <td>{col.ativo ? 'Sim' : 'Não'}</td>
                                 <td>{col.unidades.map(u => u.nome_unidade).join(', ')}</td>
-                                <td style="text-align: center;">
-                                    <button on:click={() => handleToggleAtivo(col)} class="btn {col.ativo ? 'btn-warning' : 'btn-success'} table-actions">
+                                <td class="actions-column">
+                                    <button on:click={() => handleToggleAtivo(col)} class="btn {col.ativo ? 'btn-warning' : 'btn-success'}">
                                         {col.ativo ? 'Desativar' : 'Ativar'}
                                     </button>
-                                    <button on:click={() => handleDeleteColaborador(col.id)} class="btn-danger table-actions">Excluir</button>
+                                    <button on:click={() => handleDeleteColaborador(col.id)} class="btn btn-danger">Excluir</button>
                                 </td>
                             </tr>
                         {/each}
@@ -133,4 +138,24 @@
     .page-container { width: 100%; max-width: 900px; margin: auto; }
     .back-button { display: inline-block; margin-bottom: 1.5rem; font-weight: 500; color: var(--primary-color, #0052cc); text-decoration: none; }
     .back-button:hover { text-decoration: underline; }
+    .card { background-color: #fff; border: 1px solid #dee2e6; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+    .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #dee2e6; }
+    .card-header h3 { margin: 0; font-size: 1.25rem; }
+    .card-body { padding: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    input[type="text"] { width: 100%; padding: 0.6rem 0.85rem; border: 1px solid #dee2e6; border-radius: 0.5rem; box-sizing: border-box; }
+    .checkbox-group-container { max-height: 150px; overflow-y: auto; border: 1px solid #dee2e6; padding: 1rem; border-radius: 0.5rem; background-color: #f8f9fa; }
+    .checkbox-item { display: flex; align-items: center; margin-bottom: 0.5rem; }
+    .checkbox-item input { width: auto; margin-right: 0.75rem; }
+    .checkbox-item label { margin: 0; font-weight: normal; }
+    .btn { padding: 0.6rem 1.2rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 500; color: white; margin: 0 0.25rem; }
+    .btn-success { background-color: #1a8754; }
+    .btn-warning { background-color: #fbbc05; color: black; }
+    .btn-danger { background-color: #d93025; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 0.85rem 1rem; border-bottom: 1px solid #dee2e6; }
+    th { background-color: #f8f9fa; font-weight: 600; }
+    .actions-column { text-align: center; width: 220px; }
+    .centered-cell { text-align: center; padding: 2rem; color: #606770; }
 </style>

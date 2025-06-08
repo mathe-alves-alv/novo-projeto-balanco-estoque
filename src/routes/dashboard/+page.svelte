@@ -41,15 +41,16 @@
                 </div>
             </a>
 
-            <a href="#" class="dashboard-card-link">
-                <div class="dashboard-card" style="background-color: #f8f9fa; opacity: 0.6;">
+            <!-- CÓDIGO CORRIGIDO ABAIXO -->
+            <a href="/dashboard/categorias" class="dashboard-card-link">
+                 <div class="dashboard-card">
                     <div class="icon">🏷️</div>
                     <h4>Categorias</h4>
-                    <p>(Em breve)</p>
+                    <p>Crie as categorias para organizar seus produtos.</p>
                 </div>
             </a>
             
-           <a href="/dashboard/colaboradores" class="dashboard-card-link">
+         <a href="/dashboard/colaboradores" class="dashboard-card-link">
     <div class="dashboard-card">
         <div class="icon">👥</div>
         <h4>Colaboradores</h4>
@@ -57,27 +58,27 @@
     </div>
 </a>
 
-{#if $user && ($user.role === 'admin_master' || $user.role === 'empresa_manager')}
-    <a href="/dashboard/usuarios" class="dashboard-card-link">
-        <div class="dashboard-card">
-            <div class="icon">🔑</div>
-            <h4>Gerenciar Usuários</h4>
-            <p>Crie e gerencie os acessos ao sistema.</p>
-        </div>
-    </a>
-{/if}
+            {#if $user && ($user.role === 'admin_master' || $user.role === 'empresa_manager')}
+                <a href="/dashboard/usuarios" class="dashboard-card-link">
+                    <div class="dashboard-card">
+                        <div class="icon">🔑</div>
+                        <h4>Gerenciar Usuários</h4>
+                        <p>Crie e gerencie os acessos ao sistema.</p>
+                    </div>
+                </a>
+            {/if}
 
             <a href="/dashboard/contagem" class="dashboard-card-link">
-    <div class="dashboard-card">
-        <div class="icon">🔍</div><h4>Nova Contagem</h4><p>Inicie uma nova contagem de inventário.</p>
-    </div>
-</a>
+                <div class="dashboard-card">
+                    <div class="icon">🔍</div><h4>Nova Contagem</h4><p>Inicie uma nova contagem de inventário.</p>
+                </div>
+            </a>
 
-<a href="/dashboard/historico" class="dashboard-card-link">
-    <div class="dashboard-card">
-        <div class="icon">📜</div><h4>Histórico</h4><p>Visualize contagens passadas.</p>
-    </div>
-</a>
+            <a href="/dashboard/historico" class="dashboard-card-link">
+                <div class="dashboard-card">
+                    <div class="icon">📜</div><h4>Histórico</h4><p>Visualize contagens passadas.</p>
+                </div>
+            </a>
 
         </div>
 
